@@ -23,3 +23,4 @@ Key Components
 5. Monitoring:
    - Role: Provides monitoring and visualization of the application's performance and health.
    - Technologies: Prometheus, Grafana.
+# image_server
