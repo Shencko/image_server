@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload and Search</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+</head>
+<body>
+
+<div class="container">
+    <h1>Image Upload and Search</h1>
+
+    <!-- Image Upload Form -->
+    <form method="post" action="/upload" enctype="multipart/form-data">
+        <label for="file">Choose file to upload</label>
+        <input type="file" name="file" id="file" accept="image/*" required>
+        <br>
+        <label for="tag">Image Tag:</label>
+        <input type="text" name="tag" id="tag" placeholder="Enter a tag" required>
+        <br><br>
+        <input id="button1" type="submit" value="Upload">
+    </form>
+    <!-- <form action="/upload" id="uploadForm" method="POST" enctype="multipart/form-data"> -->
+        <!-- <input type="file" id="file" name="file" accept="image/*" required> -->
+        <!-- <input type="text" name="tag" id="tag" placeholder="Enter a tag" required> -->
+        <!-- <button type="submit">Upload Image</button> -->
+    <!-- </form> -->
+
+    <!-- Search Button -->
+    <button id="searchButton">Search for an Image</button>
+</div>
+
+
+<!-- Search Popup -->
+<div class="popup" id="searchPopup">
+    <h2>Search for an Image</h2>
+    <form action="/search" id="searchForm" method="post">
+        <input type="text" id="tag" name="tag" placeholder="Search by image name..." required>
+        <button type="submit">Search</button>
+    </form>
+    <button id="closeSearchPopup">Close</button>
+</div>
+
+ <!-- Overlay -->
+<div class="overlay" id="overlay"></div>
+
+
+
+<script>
+    document.getElementById('searchButton').addEventListener('click', function() {
+        document.getElementById('searchPopup').classList.add('visible');
+        document.getElementById('overlay').classList.add('visible');
+    });
+
+    document.getElementById('closeSearchPopup').addEventListener('click', function() {
+        document.getElementById('searchPopup').classList.remove('visible');
+        document.getElementById('overlay').classList.remove('visible');
+    });
+
+    document.getElementById('uploadForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const fileInput = document.getElementById('imageUpload');
+        const file = fileInput.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imageUrl = e.target.result;
+                const imageName = file.name;
+                document.getElementById('imageDisplay').src = imageUrl;
+                document.getElementById('imageName').textContent = imageName;
+                document.getElementById('viewImageLink').href = `image-details.html?imageUrl=${encodeURIComponent(imageUrl)}&imageName=${encodeURIComponent(imageName)}`;
+                document.getElementById('imageDetail').classList.add('visible');
+
+                // Show upload success popup
+                document.getElementById('uploadPopup').classList.add('visible');
+                document.getElementById('overlay').classList.add('visible');
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    document.getElementById('searchForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const searchValue = document.getElementById('searchInput').value;
+        // Implement search functionality here based on `searchValue`
+        alert('Searching for: ' + searchValue);
+        document.getElementById('searchPopup').classList.remove('visible');
+        document.getElementById('overlay').classList.remove('visible');
+    });
+
+    document.getElementById('closeUploadPopup').addEventListener('click', function() {
+        document.getElementById('uploadPopup').classList.remove('visible');
+        document.getElementById('overlay').classList.remove('visible');
+    });
+</script>
+
+</body>
+</html>

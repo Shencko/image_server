@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Success</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div class="popup" id="uploadPopup">
+    </div>
+    <script>
+        Swal.fire({
+            title: 'Upload Successful',
+            text: 'Your image has been uploaded successfully.',
+            icon: 'success',
+            confirmButtonText: 'Close'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "/";
+            }
+        });
+    </script>
+</body>
+</html>

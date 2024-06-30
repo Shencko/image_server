@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Details</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}"">
+</head>
+<body>
+<div class="container">
+    <h1>Image Details</h1>
+    <img id="imageDisplay" src={{image_link}} alt="Uploaded Image">
+        <p>{{metadata}}</p>
+    <a href="{{url_for('homepage')}}">Back to Home</a>
+</div>
+
+<script>
+    // Get image data from URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const imageUrl = urlParams.get('imageUrl');
+    const imageName = urlParams.get('imageName');
+
+    // Set image data in the page
+    if (imageUrl && imageName) {
+        document.getElementById('imageDisplay').src = imageUrl;
+        document.getElementById('imageName').textContent = imageName;
+    } else {
+        document.getElementById('imageDisplay').alt = 'No image provided';
+        document.getElementById('imageName').textContent = 'No image name provided';
+    }
+</script>
+
+</body>
+</html>

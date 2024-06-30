@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment-flask
+  labels:
+    app: flask-webpage
+    tier: front-end
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: flask-webpage
+  template:
+    metadata:
+      labels:
+        app: flask-webpage
+        tier: front-end
+    spec:
+      containers:
+        - name: flask-app
+          image:  gcr.io/gke-user/flask-app:v1
+          ports:
+            - containerPort: 8080
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: flaskweb-loadbalancer-service
+  labels:
+    app: flask-webpage
+    tier: front-end
+spec:
+  selector:
+    app: flask-webpage
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer
